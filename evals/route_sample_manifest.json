@@ -1,0 +1,312 @@
+{
+  "version": "m6-4a.1",
+  "seed": 20261110,
+  "source_files": {
+    "route_data.json": {
+      "size_bytes": 78972162,
+      "sha256": "da3a5d4e73b683d756111f0d9e6d3f20eb8e82adf7c89ee6ee0cb2239abd2f38"
+    },
+    "package_data.json": {
+      "size_bytes": 375437806,
+      "sha256": "9ac858358e9f43d34cb65198c03601c814328a06dec9b71ee88b40aaec7f0966"
+    }
+  },
+  "metadata_index": {
+    "filename": "route_metadata_index.csv",
+    "route_count": 6112,
+    "statuses": {
+      "indexed": 6112
+    },
+    "unmatched_package_route_count": 0
+  },
+  "selection_rules": {
+    "stop_count": "All route stops, including the depot",
+    "valid_time_window_count": "Packages with two parseable UTC endpoints and start before end",
+    "quality_label": "Raw route_score, descriptive only",
+    "eligibility": "Known stop and valid-window counts. Invalid individual windows remain eligible and are counted separately",
+    "sampling": "One per nonempty stratum via random.Random(seed).choice on ascending Route ID candidates",
+    "order": "Traverse four window-bin columns across the three size bins, with window offsets 0, 1, 3",
+    "fallback": "After reserving nonempty strata, fill empty strata from the nearest unused pool by Manhattan bin distance. Break distance ties by ascending stop-bin then window-bin index",
+    "pilot": "First three samples in manifest order"
+  },
+  "strata": [
+    {
+      "stop_count": "<=100",
+      "valid_time_window_count": "0",
+      "candidate_count": 0
+    },
+    {
+      "stop_count": "101-150",
+      "valid_time_window_count": "1-15",
+      "candidate_count": 1113
+    },
+    {
+      "stop_count": ">=151",
+      "valid_time_window_count": ">=41",
+      "candidate_count": 169
+    },
+    {
+      "stop_count": "<=100",
+      "valid_time_window_count": "1-15",
+      "candidate_count": 167
+    },
+    {
+      "stop_count": "101-150",
+      "valid_time_window_count": "16-40",
+      "candidate_count": 1038
+    },
+    {
+      "stop_count": ">=151",
+      "valid_time_window_count": "0",
+      "candidate_count": 0
+    },
+    {
+      "stop_count": "<=100",
+      "valid_time_window_count": "16-40",
+      "candidate_count": 230
+    },
+    {
+      "stop_count": "101-150",
+      "valid_time_window_count": ">=41",
+      "candidate_count": 323
+    },
+    {
+      "stop_count": ">=151",
+      "valid_time_window_count": "1-15",
+      "candidate_count": 1885
+    },
+    {
+      "stop_count": "<=100",
+      "valid_time_window_count": ">=41",
+      "candidate_count": 108
+    },
+    {
+      "stop_count": "101-150",
+      "valid_time_window_count": "0",
+      "candidate_count": 0
+    },
+    {
+      "stop_count": ">=151",
+      "valid_time_window_count": "16-40",
+      "candidate_count": 1079
+    }
+  ],
+  "samples": [
+    {
+      "position": 1,
+      "target_stratum": {
+        "stop_count": "<=100",
+        "valid_time_window_count": "0"
+      },
+      "actual_stratum": {
+        "stop_count": "<=100",
+        "valid_time_window_count": "1-15"
+      },
+      "route_id": "RouteID_61612c45-4ab6-4ad7-af11-a9ad4ded4765",
+      "stop_count": 95,
+      "package_count": 200,
+      "valid_time_window_count": 15,
+      "invalid_time_window_count": 0,
+      "route_score": "High",
+      "metadata_status": "indexed"
+    },
+    {
+      "position": 2,
+      "target_stratum": {
+        "stop_count": "101-150",
+        "valid_time_window_count": "1-15"
+      },
+      "actual_stratum": {
+        "stop_count": "101-150",
+        "valid_time_window_count": "1-15"
+      },
+      "route_id": "RouteID_9239d958-2173-47c0-ad32-fe2a08319bf4",
+      "stop_count": 133,
+      "package_count": 211,
+      "valid_time_window_count": 10,
+      "invalid_time_window_count": 0,
+      "route_score": "Medium",
+      "metadata_status": "indexed"
+    },
+    {
+      "position": 3,
+      "target_stratum": {
+        "stop_count": ">=151",
+        "valid_time_window_count": ">=41"
+      },
+      "actual_stratum": {
+        "stop_count": ">=151",
+        "valid_time_window_count": ">=41"
+      },
+      "route_id": "RouteID_fbc6e4e2-5cb2-4367-a24d-833b76698f0f",
+      "stop_count": 159,
+      "package_count": 266,
+      "valid_time_window_count": 56,
+      "invalid_time_window_count": 0,
+      "route_score": "High",
+      "metadata_status": "indexed"
+    },
+    {
+      "position": 4,
+      "target_stratum": {
+        "stop_count": "<=100",
+        "valid_time_window_count": "1-15"
+      },
+      "actual_stratum": {
+        "stop_count": "<=100",
+        "valid_time_window_count": "1-15"
+      },
+      "route_id": "RouteID_4f3a5b7a-3731-4519-88ff-c6664d0aa130",
+      "stop_count": 99,
+      "package_count": 169,
+      "valid_time_window_count": 2,
+      "invalid_time_window_count": 0,
+      "route_score": "High",
+      "metadata_status": "indexed"
+    },
+    {
+      "position": 5,
+      "target_stratum": {
+        "stop_count": "101-150",
+        "valid_time_window_count": "16-40"
+      },
+      "actual_stratum": {
+        "stop_count": "101-150",
+        "valid_time_window_count": "16-40"
+      },
+      "route_id": "RouteID_f0a3238e-663e-48bc-9274-8b2fdb7226d4",
+      "stop_count": 140,
+      "package_count": 185,
+      "valid_time_window_count": 24,
+      "invalid_time_window_count": 0,
+      "route_score": "High",
+      "metadata_status": "indexed"
+    },
+    {
+      "position": 6,
+      "target_stratum": {
+        "stop_count": ">=151",
+        "valid_time_window_count": "0"
+      },
+      "actual_stratum": {
+        "stop_count": ">=151",
+        "valid_time_window_count": "1-15"
+      },
+      "route_id": "RouteID_decb70c4-91dc-4ded-a08c-ecb6b231d9f1",
+      "stop_count": 184,
+      "package_count": 235,
+      "valid_time_window_count": 2,
+      "invalid_time_window_count": 0,
+      "route_score": "Low",
+      "metadata_status": "indexed"
+    },
+    {
+      "position": 7,
+      "target_stratum": {
+        "stop_count": "<=100",
+        "valid_time_window_count": "16-40"
+      },
+      "actual_stratum": {
+        "stop_count": "<=100",
+        "valid_time_window_count": "16-40"
+      },
+      "route_id": "RouteID_cb40e93e-ba72-4b59-b5bb-d1c2456b6de5",
+      "stop_count": 74,
+      "package_count": 191,
+      "valid_time_window_count": 40,
+      "invalid_time_window_count": 0,
+      "route_score": "High",
+      "metadata_status": "indexed"
+    },
+    {
+      "position": 8,
+      "target_stratum": {
+        "stop_count": "101-150",
+        "valid_time_window_count": ">=41"
+      },
+      "actual_stratum": {
+        "stop_count": "101-150",
+        "valid_time_window_count": ">=41"
+      },
+      "route_id": "RouteID_98e127f9-64d6-4ae5-acf5-3380315a18fc",
+      "stop_count": 142,
+      "package_count": 233,
+      "valid_time_window_count": 65,
+      "invalid_time_window_count": 0,
+      "route_score": "Medium",
+      "metadata_status": "indexed"
+    },
+    {
+      "position": 9,
+      "target_stratum": {
+        "stop_count": ">=151",
+        "valid_time_window_count": "1-15"
+      },
+      "actual_stratum": {
+        "stop_count": ">=151",
+        "valid_time_window_count": "1-15"
+      },
+      "route_id": "RouteID_5839723c-9b10-4398-bacd-092924d9ac64",
+      "stop_count": 187,
+      "package_count": 287,
+      "valid_time_window_count": 6,
+      "invalid_time_window_count": 0,
+      "route_score": "High",
+      "metadata_status": "indexed"
+    },
+    {
+      "position": 10,
+      "target_stratum": {
+        "stop_count": "<=100",
+        "valid_time_window_count": ">=41"
+      },
+      "actual_stratum": {
+        "stop_count": "<=100",
+        "valid_time_window_count": ">=41"
+      },
+      "route_id": "RouteID_2ad4d673-65bc-4947-b11d-2c9cda109b45",
+      "stop_count": 89,
+      "package_count": 199,
+      "valid_time_window_count": 44,
+      "invalid_time_window_count": 0,
+      "route_score": "Low",
+      "metadata_status": "indexed"
+    },
+    {
+      "position": 11,
+      "target_stratum": {
+        "stop_count": "101-150",
+        "valid_time_window_count": "0"
+      },
+      "actual_stratum": {
+        "stop_count": "101-150",
+        "valid_time_window_count": "1-15"
+      },
+      "route_id": "RouteID_a03313e3-b6d4-44ab-9d8b-53e5b1e5190d",
+      "stop_count": 147,
+      "package_count": 208,
+      "valid_time_window_count": 10,
+      "invalid_time_window_count": 0,
+      "route_score": "Medium",
+      "metadata_status": "indexed"
+    },
+    {
+      "position": 12,
+      "target_stratum": {
+        "stop_count": ">=151",
+        "valid_time_window_count": "16-40"
+      },
+      "actual_stratum": {
+        "stop_count": ">=151",
+        "valid_time_window_count": "16-40"
+      },
+      "route_id": "RouteID_a0e771bd-a39b-4f2a-80eb-97942deb8251",
+      "stop_count": 173,
+      "package_count": 228,
+      "valid_time_window_count": 17,
+      "invalid_time_window_count": 0,
+      "route_score": "Medium",
+      "metadata_status": "indexed"
+    }
+  ]
+}

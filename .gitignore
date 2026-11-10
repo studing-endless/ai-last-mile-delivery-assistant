@@ -1,0 +1,44 @@
+# Python虚拟环境
+.venv/
+venv/
+
+# Python缓存
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.coverage
+
+# 原始数据
+/data/raw/
+route_data.json
+actual_sequences.json
+package_data.json
+travel_times.json
+
+# 程序运行结果
+/outputs/
+/evals/ai_cases.json
+planning-*.json
+stops-*.csv
+*.log
+*.log.*
+*.tmp
+
+# 本地数据库
+*.db
+*.sqlite
+*.sqlite3
+*.db-*
+*.sqlite-*
+*.sqlite3-*
+
+# API密钥
+.env
+.env.*
+!.env.example
+.streamlit/secrets.toml
+.aws/
+
+# 编辑器本地配置
+.vscode/

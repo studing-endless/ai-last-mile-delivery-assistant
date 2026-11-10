@@ -1,0 +1,8 @@
+# Direct dependencies verified with Python 3.13.6 on Windows x64.
+altair==6.3.0
+ijson==3.6.0
+openai==3.48.0
+ortools==9.15.6755
+pyarrow==26.0.1
+python-dotenv==1.2.4
+streamlit==1.67.0
