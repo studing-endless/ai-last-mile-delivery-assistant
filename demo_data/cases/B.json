@@ -1,0 +1,139 @@
+{
+  "demo_case_id": "B",
+  "description": "效率权衡，行驶减少但等待使总作业增加",
+  "route_id": "RouteID_00143bdd-0a6b-49ec-bb35-36593d303e77",
+  "source_type": "saved_planning_snapshot",
+  "run_id": "1040cb65-98e0-4eac-8212-9c9dab17c848",
+  "task": {
+    "stop_count": 119,
+    "package_count": 276,
+    "valid_time_window_count": 55
+  },
+  "historical": {
+    "driving_seconds": 9618.8,
+    "planned_service_time_seconds_sum": 12940.9,
+    "waiting_seconds": 0.0,
+    "total_operation_seconds": 22559.7,
+    "risk_package_count": 0,
+    "risk_stop_count": 0,
+    "window_conflict_stop_count": 0
+  },
+  "suggested": {
+    "driving_seconds": 8495.8,
+    "planned_service_time_seconds_sum": 12940.9,
+    "waiting_seconds": 1347.7,
+    "total_operation_seconds": 22784.4,
+    "risk_package_count": 0,
+    "risk_stop_count": 0,
+    "window_conflict_stop_count": 0
+  },
+  "new_risk": {
+    "package_count": null,
+    "stop_count": null
+  },
+  "review_status": "REJECTED",
+  "algorithm": {
+    "name": "OR-Tools RoutingModel",
+    "search_budget_seconds": 20.0,
+    "parameters": {
+      "cost_scale": 1000,
+      "first_solution_strategy": "PATH_CHEAPEST_ARC",
+      "local_search_metaheuristic": "GUIDED_LOCAL_SEARCH",
+      "objective": "directed_driving_time",
+      "vehicles": 1
+    },
+    "solver_status": "ROUTING_SUCCESS"
+  },
+  "provenance": {
+    "files": [
+      {
+        "path": "outputs/planning_runs.sqlite3",
+        "sha256": "d9022d69bd0ccefe36567a6723b4637a84cb19a23eb086ab567637a8eac5c2c2"
+      },
+      {
+        "path": "outputs/route_eval/route_metadata_index.csv",
+        "sha256": "491c45cbb9bc4d35e2b528adaad0bc3683ed6bcf05a96ee71154ee076e4a8007"
+      }
+    ],
+    "locator": "planning_runs + planning_reviews WHERE run_id=1040cb65-98e0-4eac-8212-9c9dab17c848",
+    "evidence_sha256": "921c8940fe8cc47308b1ce00d29bb9a6d0992137b26bad29537e63e786936241"
+  },
+  "missing_data": [
+    "new_risk: package and stop identities were not saved; totals are retained"
+  ],
+  "simulation": {
+    "scope": "offline_simulation_estimate",
+    "tour": "same_depot_closed_tour",
+    "travel": "same_original_directed_seconds",
+    "departure": "same_utc_departure",
+    "service": "sum_of_package_planned_service_seconds_not_actual_dwell",
+    "windows": "inclusive_window_check_at_station_service_start",
+    "delta": "suggested_minus_historical",
+    "percent": "delta / historical * 100; null if historical is zero"
+  },
+  "comparisons": {
+    "driving_seconds": {
+      "historical": 9618.8,
+      "suggested": 8495.8,
+      "delta": -1123.0,
+      "change_percent": -11.675053021166882,
+      "direction": "decreased",
+      "unit": "seconds",
+      "lower_is_better": true
+    },
+    "planned_service_time_seconds_sum": {
+      "historical": 12940.9,
+      "suggested": 12940.9,
+      "delta": 0.0,
+      "change_percent": 0.0,
+      "direction": "unchanged",
+      "unit": "seconds",
+      "lower_is_better": true
+    },
+    "waiting_seconds": {
+      "historical": 0.0,
+      "suggested": 1347.7,
+      "delta": 1347.7,
+      "change_percent": null,
+      "direction": "increased",
+      "unit": "seconds",
+      "lower_is_better": true
+    },
+    "total_operation_seconds": {
+      "historical": 22559.7,
+      "suggested": 22784.4,
+      "delta": 224.7,
+      "change_percent": 0.9960238832963204,
+      "direction": "increased",
+      "unit": "seconds",
+      "lower_is_better": true
+    },
+    "risk_package_count": {
+      "historical": 0,
+      "suggested": 0,
+      "delta": 0.0,
+      "change_percent": null,
+      "direction": "unchanged",
+      "unit": "packages",
+      "lower_is_better": true
+    },
+    "risk_stop_count": {
+      "historical": 0,
+      "suggested": 0,
+      "delta": 0.0,
+      "change_percent": null,
+      "direction": "unchanged",
+      "unit": "stops",
+      "lower_is_better": true
+    },
+    "window_conflict_stop_count": {
+      "historical": 0,
+      "suggested": 0,
+      "delta": 0.0,
+      "change_percent": null,
+      "direction": "unchanged",
+      "unit": "stops",
+      "lower_is_better": true
+    }
+  }
+}

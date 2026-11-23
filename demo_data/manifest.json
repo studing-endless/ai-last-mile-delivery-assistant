@@ -1,0 +1,26 @@
+{
+  "version": "D1.1",
+  "scope": "read_only_precomputed_offline_simulation",
+  "license": "CC-BY-NC-4.0",
+  "attribution": "2021 Amazon Last Mile Routing Research Challenge Dataset; Copyright Amazon.com, Inc. or its affiliates",
+  "source_url": "https://registry.opendata.aws/amazon-last-mile-challenges/",
+  "selection": "Three curated demonstration cases; not a replacement for the fixed 12-route evaluation",
+  "tolerance": "0.000001",
+  "cases": [
+    {
+      "demo_case_id": "A",
+      "path": "cases/A.json",
+      "sha256": "6f970413d7b9d112bfe5cfc47aea437be587f39ab360956058ecc98a32ef275f"
+    },
+    {
+      "demo_case_id": "B",
+      "path": "cases/B.json",
+      "sha256": "0b781a4b24bc2b2097b3b9ba0718e15d0e7744c885a10c4565a415c46bd4a2fc"
+    },
+    {
+      "demo_case_id": "C",
+      "path": "cases/C.json",
+      "sha256": "e2d2c44e064279234d68c58b94a0b24b91a35ca8f3b1a3fdf74502ba828f103f"
+    }
+  ]
+}

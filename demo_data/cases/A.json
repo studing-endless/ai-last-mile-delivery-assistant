@@ -1,0 +1,144 @@
+{
+  "demo_case_id": "A",
+  "description": "效率改善，行驶与总作业均减少且无新增窗口风险",
+  "route_id": "RouteID_61612c45-4ab6-4ad7-af11-a9ad4ded4765",
+  "source_type": "m6_4_evaluation",
+  "run_id": null,
+  "task": {
+    "stop_count": 95,
+    "package_count": 200,
+    "valid_time_window_count": 15
+  },
+  "historical": {
+    "driving_seconds": 9890.0,
+    "planned_service_time_seconds_sum": 15685.1,
+    "waiting_seconds": 0.0,
+    "total_operation_seconds": 25575.1,
+    "risk_package_count": 0,
+    "risk_stop_count": 0,
+    "window_conflict_stop_count": 0
+  },
+  "suggested": {
+    "driving_seconds": 8022.8,
+    "planned_service_time_seconds_sum": 15685.1,
+    "waiting_seconds": 0.0,
+    "total_operation_seconds": 23707.9,
+    "risk_package_count": 0,
+    "risk_stop_count": 0,
+    "window_conflict_stop_count": 0
+  },
+  "new_risk": {
+    "package_count": 0,
+    "stop_count": 0
+  },
+  "review_status": null,
+  "algorithm": {
+    "name": "OR-Tools RoutingModel",
+    "search_budget_seconds": 20,
+    "parameters": {
+      "vehicles": 1,
+      "objective": "minimize directed driving time",
+      "first_solution_strategy": "PATH_CHEAPEST_ARC",
+      "local_search_metaheuristic": "GUIDED_LOCAL_SEARCH",
+      "cost_scale": 1000
+    },
+    "solver_status": "ROUTING_SUCCESS"
+  },
+  "provenance": {
+    "files": [
+      {
+        "path": "outputs/route_eval/m6-4b-summary/results.json",
+        "sha256": "eae22c86a5c5ec846029ab16d33b0e588542f88d1ed435683bb4c8df2702d904"
+      },
+      {
+        "path": "outputs/route_eval/run-20261110T103154034878Z/results.json",
+        "sha256": "1b915bd49af68ada50b0998a99c9e320e024c5e45dd40e3c88568029c922357b"
+      },
+      {
+        "path": "evals/route_sample_manifest.json",
+        "sha256": "c153ceba9b9a8cda00914b286943e8b21deaa18eefa4eaec23c9423eec528f9e"
+      }
+    ],
+    "locator": "results[position=1]",
+    "evidence_sha256": "e3333d36e5f2ac69089805b888df8037e0a8d39a911c39ec66a16c1ec761560e"
+  },
+  "missing_data": [
+    "run_id: batch evaluation has no planning run ID",
+    "review_status: not saved in batch report"
+  ],
+  "simulation": {
+    "scope": "offline_simulation_estimate",
+    "tour": "same_depot_closed_tour",
+    "travel": "same_original_directed_seconds",
+    "departure": "same_utc_departure",
+    "service": "sum_of_package_planned_service_seconds_not_actual_dwell",
+    "windows": "inclusive_window_check_at_station_service_start",
+    "delta": "suggested_minus_historical",
+    "percent": "delta / historical * 100; null if historical is zero"
+  },
+  "comparisons": {
+    "driving_seconds": {
+      "historical": 9890.0,
+      "suggested": 8022.8,
+      "delta": -1867.2,
+      "change_percent": -18.879676440849344,
+      "direction": "decreased",
+      "unit": "seconds",
+      "lower_is_better": true
+    },
+    "planned_service_time_seconds_sum": {
+      "historical": 15685.1,
+      "suggested": 15685.1,
+      "delta": 0.0,
+      "change_percent": 0.0,
+      "direction": "unchanged",
+      "unit": "seconds",
+      "lower_is_better": true
+    },
+    "waiting_seconds": {
+      "historical": 0.0,
+      "suggested": 0.0,
+      "delta": 0.0,
+      "change_percent": null,
+      "direction": "unchanged",
+      "unit": "seconds",
+      "lower_is_better": true
+    },
+    "total_operation_seconds": {
+      "historical": 25575.1,
+      "suggested": 23707.9,
+      "delta": -1867.2,
+      "change_percent": -7.30085121856806,
+      "direction": "decreased",
+      "unit": "seconds",
+      "lower_is_better": true
+    },
+    "risk_package_count": {
+      "historical": 0,
+      "suggested": 0,
+      "delta": 0.0,
+      "change_percent": null,
+      "direction": "unchanged",
+      "unit": "packages",
+      "lower_is_better": true
+    },
+    "risk_stop_count": {
+      "historical": 0,
+      "suggested": 0,
+      "delta": 0.0,
+      "change_percent": null,
+      "direction": "unchanged",
+      "unit": "stops",
+      "lower_is_better": true
+    },
+    "window_conflict_stop_count": {
+      "historical": 0,
+      "suggested": 0,
+      "delta": 0.0,
+      "change_percent": null,
+      "direction": "unchanged",
+      "unit": "stops",
+      "lower_is_better": true
+    }
+  }
+}

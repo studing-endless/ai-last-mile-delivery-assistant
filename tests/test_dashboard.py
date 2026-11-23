@@ -15,6 +15,7 @@ import app
 
 class DashboardTests(unittest.TestCase):
     def setUp(self):
+        self.enterContext(patch("src.demo_dashboard.has_local_data", return_value=True))
         departure = datetime(2020, 1, 1, tzinfo=UTC)
         self.task = {
             "route_id": app.DEFAULT_ROUTE_ID,

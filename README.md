@@ -33,6 +33,7 @@ flowchart LR
 | 位置 | 内容 |
 | --- | --- |
 | `app.py`、`.streamlit/config.toml` | Web 入口和主题配置 |
+| `demo_data/` | 当前 D1 三案例数据包，由主入口自动加载 |
 | `src/` | 数据读取、规划、模拟、持久化、审核、导出和 AI 工具 |
 | `tests/` | `unittest` 单元测试及 Streamlit AppTest |
 | `evals/` | 冻结路线样本清单、路线与 AI 评估程序、公开评估摘要 |
@@ -40,6 +41,21 @@ flowchart LR
 | `requirements.txt`、`.env.example` | 直接依赖版本及可选 AI 配置模板 |
 | `m0_check.py`、`m0_package_check.py` | 早期数据核验脚本，日常运行使用 `app.py` |
 | `data/raw/`、`outputs/` | 本地原始数据、SQLite、报告及评估轨迹，由用户准备或运行生成 |
+
+## 在线演示与部署
+
+主入口 `app.py` 自动选择模式。`data/raw/` 中四个原始 JSON 都存在时使用「本地完整模式」。缺少任意一个时进入「在线只读演示模式」，直接加载已经验证的 D1 数据包。访客可切换 A 效率改善、B 效率权衡、C 时间窗口风险三个精选案例，查看任务计数、原始 Route ID、历史和建议指标、差值、改善百分比及风险提示。
+
+从仓库根目录启动。演示所需数据为 `demo_data/`，运行依赖使用根目录清单。
+
+```powershell
+.\.venv\Scripts\python.exe -m pip install -r requirements.txt
+.\.venv\Scripts\python.exe -m streamlit run app.py
+```
+
+后续在 [Streamlit Community Cloud](https://share.streamlit.io/) 部署时，选择公开的 GitHub 仓库和目标分支，将入口设为 `app.py`，在 **Advanced settings** 选 **Python 3.13**，Secrets 留空。平台使用根目录 `requirements.txt` 和 `.streamlit/config.toml`。仓库需包含 `demo_data/`、`evals/validate_demo_data.py` 及 `src/`。可参考 [官方部署步骤](https://docs.streamlit.io/deploy/streamlit-community-cloud/deploy-your-app/deploy)和 [依赖说明](https://docs.streamlit.io/deploy/streamlit-community-cloud/deploy-your-app/app-dependencies)。
+
+演示中的建议指标已预计算。B 的 `REJECTED` 是原有历史快照审核状态。缺失指标显示「未提供」。AI 区域标明真实对话仅在本地完整版提供，地图和站点顺序待取得合适的公开字段后再接入。D2 仅完成页面开发和本地验收，云端链接需在后续部署完成后提供。完整 12 条路线统计见 [公开评估报告](evals/results.md)，Amazon 派生内容适用本文末尾的数据许可。
 
 ## Windows 安装与运行
 

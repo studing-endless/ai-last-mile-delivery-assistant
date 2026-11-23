@@ -54,6 +54,7 @@ def returned_tool_output(request, call_id):
 
 class AssistantTests(unittest.TestCase):
     def setUp(self):
+        self.enterContext(patch("src.demo_dashboard.has_local_data", return_value=True))
         directory = tempfile.TemporaryDirectory()
         self.addCleanup(directory.cleanup)
         self.path = Path(directory.name) / "planning.sqlite3"

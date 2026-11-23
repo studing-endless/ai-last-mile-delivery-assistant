@@ -50,7 +50,7 @@ def show_time_breakdown(historical: dict, suggested: dict) -> None:
             ),
             order=alt.Order("顺序:Q"),
             tooltip=["路线:N", "时长构成:N", alt.Tooltip("分钟:Q", format=",.6f"), "原始秒数:N"],
-        ).properties(height=100)
+        ).properties(height=240)
         st.altair_chart(chart, width="stretch", alt="历史与建议路线的作业时长构成（分钟）")
 
 
