@@ -10,6 +10,7 @@ from uuid import uuid4
 import streamlit as st
 
 from src import demo_dashboard
+from src.demo_embed import show_portfolio
 from src.ai_assistant import answer_question, configured_model, redact_api_key, setup_message
 from src.dashboard_charts import show_route_map, show_time_breakdown
 from src.data_loader import load_route_and_sequence
@@ -566,7 +567,8 @@ def _show_ai_assistant(selected_run_id: str | None) -> None:
 def main() -> None:
     st.set_page_config(page_title=TITLE, page_icon="🚚", layout="wide")
     if not demo_dashboard.has_local_data(DATA_DIR, DATA_FILES):
-        demo_dashboard.show_demo()
+        if not show_portfolio():
+            demo_dashboard.show_demo()
         return
     _show_header()
     st.caption("本地完整模式")

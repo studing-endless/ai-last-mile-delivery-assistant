@@ -1,12 +1,16 @@
 # AI末端配送规划与运营决策助手
 
-**AI Last-Mile Delivery Planning Assistant** · [打开在线演示](https://ai-last-mile-assistant.streamlit.app)
+**AI Last-Mile Delivery Planning Assistant**
+
+1. **[产品官网 · 静态交互作品集](https://studing-endless.github.io/ai-last-mile-delivery-assistant/)** 在 GitHub Pages 展示真实离线案例、AI 历史证据和评估结果。
+2. **[Streamlit 在线只读工作台](https://ai-last-mile-assistant.streamlit.app/)** 提供工作台界面，可查看已保存的配送方案和公开验收资料。
+3. **[本地完整业务系统](#windows-安装与运行)** 在配置原始数据后支持路线规划、保存方案、人工审核和导出，可选接入智谱 GLM。
 
 面向配送规划员、站点运营分析师和调度人员的决策支持原型。使用 Amazon 公开挑战赛的历史配送记录，对比单车历史路线与建议路线，判断行驶节省是否会被等待抵消，并识别需要复核的时间窗口风险。
 
-[快速启动](#快速启动只读演示) · [系统架构](#技术栈与架构) · [真实网页截图](docs/demo.md#在线作品集) · [评估结果](#历史评估结果) · [本地完整版](#windows-安装与运行)
+[快速启动](#快速启动只读演示) · [系统架构](#技术栈与架构) · [Streamlit 工作台截图](docs/demo.md#在线作品集) · [评估结果](#历史评估结果)
 
-![在线演示项目总览与系统架构](docs/screenshots/portfolio-overview.jpg)
+![Streamlit 在线只读工作台的项目总览与系统架构](docs/screenshots/portfolio-overview.jpg)
 
 ## 快速启动只读演示
 
@@ -56,7 +60,9 @@ flowchart LR
 | `m0_check.py`、`m0_package_check.py` | 早期数据核验脚本，日常运行使用 `app.py` |
 | `data/raw/`、`outputs/` | 本地原始数据、SQLite、报告及评估轨迹，由用户准备或运行生成 |
 
-## 在线演示导航与部署
+## Streamlit 工作台导航与部署
+
+在线只读模式加载与产品官网相同的 V3 HTML、CSS、JavaScript 和公开 JSON。Streamlit 通过组件嵌入本地文件，页面可独立于 GitHub Pages 加载。若公开静态文件缺失或无法解析，工作台使用下表所示的 D4 界面。
 
 | 页面 | 展示内容 |
 | --- | --- |

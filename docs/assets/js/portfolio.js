@@ -217,10 +217,16 @@ function selectAi(key, history, model) {
     <div class="trace-note">${traceHeading(model)}</div>${traceDetails(history)}`;
 }
 
-async function start() {
+async function loadPortfolio() {
+  const inlineData = select("#portfolio-data");
+  if (inlineData) return JSON.parse(inlineData.textContent);
   const response = await fetch(new URL("../data/portfolio.json", import.meta.url));
   if (!response.ok) throw new Error("Public portfolio snapshot could not be loaded.");
-  const payload = await response.json();
+  return response.json();
+}
+
+async function start() {
+  const payload = await loadPortfolio();
   if (payload.schema_version !== 1) throw new Error("Unsupported public portfolio snapshot version.");
   const cases = new Map(payload.delivery_cases.map((item) => [item.demo_case_id, item]));
   const history = new Map(payload.ai_history.map((item) => [item.id, item]));

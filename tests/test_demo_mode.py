@@ -2,7 +2,9 @@
 
 from copy import deepcopy
 from pathlib import Path
+import json
 import os
+import re
 import shutil
 import subprocess
 import sys
@@ -14,7 +16,7 @@ from streamlit.testing.v1 import AppTest
 
 import app
 from evals.validate_demo_data import load_package
-from src import demo_dashboard, demo_portfolio
+from src import demo_dashboard, demo_embed, demo_portfolio
 
 
 class DemoModeTests(unittest.TestCase):
@@ -22,6 +24,7 @@ class DemoModeTests(unittest.TestCase):
         self.directory = Path(self.enterContext(TemporaryDirectory()))
         self.enterContext(patch.object(app, "DATA_DIR", self.directory / "raw"))
         self.enterContext(patch.object(app, "DB_PATH", self.directory / "absent.sqlite3"))
+        self.embed = self.enterContext(patch.object(app, "show_portfolio", return_value=False))
         self.blocked = []
         for name in ("save_run", "submit_review", "list_runs", "get_run", "get_review", "answer_question",
                      "setup_message", "optimize_route", "load_delivery_task", "evaluate_schedule"):
@@ -36,6 +39,34 @@ class DemoModeTests(unittest.TestCase):
     @staticmethod
     def navigate(page, section):
         return page.radio(key="portfolio_nav").set_value(section).run()
+
+    def test_read_only_app_mounts_the_v3_component(self):
+        with (patch.object(app, "show_portfolio", demo_embed.show_portfolio),
+              patch.object(demo_dashboard, "show_demo") as fallback):
+            page = self.start()
+        self.assertEqual(len(page.get("bidi_component")), 1)
+        self.assertFalse(page.radio or page.button or page.chat_input)
+        fallback.assert_not_called()
+        for blocked in self.blocked:
+            blocked.assert_not_called()
+
+    def test_v3_build_uses_the_published_snapshot_and_assets(self):
+        page = demo_embed.build_document()
+        data = re.search(r'<script id="portfolio-data" type="application/json">(.*?)</script>', page)
+        self.assertIsNotNone(data)
+        self.assertEqual(json.loads(data[1]), json.loads((demo_embed.DOCS / "assets/data/portfolio.json").read_bytes()))
+        for asset in ("assets/css/portfolio.css", "assets/js/portfolio.js"):
+            self.assertIn((demo_embed.DOCS / asset).read_text(encoding="utf-8"), page)
+            self.assertNotIn(f'"./{asset}"', page)
+        self.assertNotIn('href="https://ai-last-mile-assistant.streamlit.app"', page)
+        self.assertIn("05 / SYSTEM", page)
+
+    def test_v3_invalid_bundle_leaves_the_d4_navigation_available(self):
+        with (patch.object(app, "show_portfolio", demo_embed.show_portfolio),
+              patch.object(demo_embed, "build_document", side_effect=ValueError("invalid snapshot"))):
+            page = self.start()
+        self.assertFalse(page.get("bidi_component"))
+        self.assertEqual(tuple(page.radio[0].options), demo_portfolio.PAGES)
 
     def test_partial_or_missing_data_uses_demo_and_all_cases_match_d1(self):
         app.DATA_DIR.mkdir()
@@ -115,6 +146,7 @@ class DemoModeTests(unittest.TestCase):
         history.assert_called_once()
         assistant.assert_called_once_with(None)
         demo.assert_not_called()
+        self.embed.assert_not_called()
         self.assertTrue(any(item.value == "本地完整模式" for item in page.caption))
 
     def test_missing_metrics_display_unavailable_and_omit_incomplete_chart(self):
