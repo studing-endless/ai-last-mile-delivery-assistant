@@ -1,0 +1,562 @@
+{
+  "schema_version": 1,
+  "scope": "read_only_precomputed_offline_simulation",
+  "dataset": {
+    "version": "D1.1",
+    "license": "CC-BY-NC-4.0",
+    "attribution": "2021 Amazon Last Mile Routing Research Challenge Dataset; Copyright Amazon.com, Inc. or its affiliates",
+    "source_url": "https://registry.opendata.aws/amazon-last-mile-challenges/",
+    "selection": "Three curated demonstration cases; not a replacement for the fixed 12-route evaluation"
+  },
+  "links": {
+    "streamlit": "https://ai-last-mile-assistant.streamlit.app",
+    "source": "https://github.com/studing-endless/ai-last-mile-delivery-assistant",
+    "evaluation_report": "https://github.com/studing-endless/ai-last-mile-delivery-assistant/blob/main/evals/results.md",
+    "dataset_license": "https://creativecommons.org/licenses/by-nc/4.0/"
+  },
+  "delivery_cases": [
+    {
+      "demo_case_id": "A",
+      "description": "效率改善，行驶与总作业均减少且无新增窗口风险",
+      "route_id": "RouteID_61612c45-4ab6-4ad7-af11-a9ad4ded4765",
+      "source_type": "m6_4_evaluation",
+      "run_id": null,
+      "task": {
+        "stop_count": 95,
+        "package_count": 200,
+        "valid_time_window_count": 15
+      },
+      "historical": {
+        "driving_seconds": 9890.0,
+        "planned_service_time_seconds_sum": 15685.1,
+        "waiting_seconds": 0.0,
+        "total_operation_seconds": 25575.1,
+        "risk_package_count": 0,
+        "risk_stop_count": 0,
+        "window_conflict_stop_count": 0
+      },
+      "suggested": {
+        "driving_seconds": 8022.8,
+        "planned_service_time_seconds_sum": 15685.1,
+        "waiting_seconds": 0.0,
+        "total_operation_seconds": 23707.9,
+        "risk_package_count": 0,
+        "risk_stop_count": 0,
+        "window_conflict_stop_count": 0
+      },
+      "new_risk": {
+        "package_count": 0,
+        "stop_count": 0
+      },
+      "review_status": null,
+      "algorithm": {
+        "name": "OR-Tools RoutingModel",
+        "search_budget_seconds": 20,
+        "parameters": {
+          "vehicles": 1,
+          "objective": "minimize directed driving time",
+          "first_solution_strategy": "PATH_CHEAPEST_ARC",
+          "local_search_metaheuristic": "GUIDED_LOCAL_SEARCH",
+          "cost_scale": 1000
+        },
+        "solver_status": "ROUTING_SUCCESS"
+      },
+      "missing_data": [
+        "run_id: batch evaluation has no planning run ID",
+        "review_status: not saved in batch report"
+      ],
+      "simulation": {
+        "scope": "offline_simulation_estimate",
+        "tour": "same_depot_closed_tour",
+        "travel": "same_original_directed_seconds",
+        "departure": "same_utc_departure",
+        "service": "sum_of_package_planned_service_seconds_not_actual_dwell",
+        "windows": "inclusive_window_check_at_station_service_start",
+        "delta": "suggested_minus_historical",
+        "percent": "delta / historical * 100; null if historical is zero"
+      },
+      "comparisons": {
+        "driving_seconds": {
+          "historical": 9890.0,
+          "suggested": 8022.8,
+          "delta": -1867.2,
+          "change_percent": -18.879676440849344,
+          "direction": "decreased",
+          "unit": "seconds",
+          "lower_is_better": true
+        },
+        "planned_service_time_seconds_sum": {
+          "historical": 15685.1,
+          "suggested": 15685.1,
+          "delta": 0.0,
+          "change_percent": 0.0,
+          "direction": "unchanged",
+          "unit": "seconds",
+          "lower_is_better": true
+        },
+        "waiting_seconds": {
+          "historical": 0.0,
+          "suggested": 0.0,
+          "delta": 0.0,
+          "change_percent": null,
+          "direction": "unchanged",
+          "unit": "seconds",
+          "lower_is_better": true
+        },
+        "total_operation_seconds": {
+          "historical": 25575.1,
+          "suggested": 23707.9,
+          "delta": -1867.2,
+          "change_percent": -7.30085121856806,
+          "direction": "decreased",
+          "unit": "seconds",
+          "lower_is_better": true
+        },
+        "risk_package_count": {
+          "historical": 0,
+          "suggested": 0,
+          "delta": 0.0,
+          "change_percent": null,
+          "direction": "unchanged",
+          "unit": "packages",
+          "lower_is_better": true
+        },
+        "risk_stop_count": {
+          "historical": 0,
+          "suggested": 0,
+          "delta": 0.0,
+          "change_percent": null,
+          "direction": "unchanged",
+          "unit": "stops",
+          "lower_is_better": true
+        },
+        "window_conflict_stop_count": {
+          "historical": 0,
+          "suggested": 0,
+          "delta": 0.0,
+          "change_percent": null,
+          "direction": "unchanged",
+          "unit": "stops",
+          "lower_is_better": true
+        }
+      }
+    },
+    {
+      "demo_case_id": "B",
+      "description": "效率权衡，行驶减少但等待使总作业增加",
+      "route_id": "RouteID_00143bdd-0a6b-49ec-bb35-36593d303e77",
+      "source_type": "saved_planning_snapshot",
+      "run_id": "1040cb65-98e0-4eac-8212-9c9dab17c848",
+      "task": {
+        "stop_count": 119,
+        "package_count": 276,
+        "valid_time_window_count": 55
+      },
+      "historical": {
+        "driving_seconds": 9618.8,
+        "planned_service_time_seconds_sum": 12940.9,
+        "waiting_seconds": 0.0,
+        "total_operation_seconds": 22559.7,
+        "risk_package_count": 0,
+        "risk_stop_count": 0,
+        "window_conflict_stop_count": 0
+      },
+      "suggested": {
+        "driving_seconds": 8495.8,
+        "planned_service_time_seconds_sum": 12940.9,
+        "waiting_seconds": 1347.7,
+        "total_operation_seconds": 22784.4,
+        "risk_package_count": 0,
+        "risk_stop_count": 0,
+        "window_conflict_stop_count": 0
+      },
+      "new_risk": {
+        "package_count": null,
+        "stop_count": null
+      },
+      "review_status": "REJECTED",
+      "algorithm": {
+        "name": "OR-Tools RoutingModel",
+        "search_budget_seconds": 20.0,
+        "parameters": {
+          "cost_scale": 1000,
+          "first_solution_strategy": "PATH_CHEAPEST_ARC",
+          "local_search_metaheuristic": "GUIDED_LOCAL_SEARCH",
+          "objective": "directed_driving_time",
+          "vehicles": 1
+        },
+        "solver_status": "ROUTING_SUCCESS"
+      },
+      "missing_data": [
+        "new_risk: package and stop identities were not saved; totals are retained"
+      ],
+      "simulation": {
+        "scope": "offline_simulation_estimate",
+        "tour": "same_depot_closed_tour",
+        "travel": "same_original_directed_seconds",
+        "departure": "same_utc_departure",
+        "service": "sum_of_package_planned_service_seconds_not_actual_dwell",
+        "windows": "inclusive_window_check_at_station_service_start",
+        "delta": "suggested_minus_historical",
+        "percent": "delta / historical * 100; null if historical is zero"
+      },
+      "comparisons": {
+        "driving_seconds": {
+          "historical": 9618.8,
+          "suggested": 8495.8,
+          "delta": -1123.0,
+          "change_percent": -11.675053021166882,
+          "direction": "decreased",
+          "unit": "seconds",
+          "lower_is_better": true
+        },
+        "planned_service_time_seconds_sum": {
+          "historical": 12940.9,
+          "suggested": 12940.9,
+          "delta": 0.0,
+          "change_percent": 0.0,
+          "direction": "unchanged",
+          "unit": "seconds",
+          "lower_is_better": true
+        },
+        "waiting_seconds": {
+          "historical": 0.0,
+          "suggested": 1347.7,
+          "delta": 1347.7,
+          "change_percent": null,
+          "direction": "increased",
+          "unit": "seconds",
+          "lower_is_better": true
+        },
+        "total_operation_seconds": {
+          "historical": 22559.7,
+          "suggested": 22784.4,
+          "delta": 224.7,
+          "change_percent": 0.9960238832963204,
+          "direction": "increased",
+          "unit": "seconds",
+          "lower_is_better": true
+        },
+        "risk_package_count": {
+          "historical": 0,
+          "suggested": 0,
+          "delta": 0.0,
+          "change_percent": null,
+          "direction": "unchanged",
+          "unit": "packages",
+          "lower_is_better": true
+        },
+        "risk_stop_count": {
+          "historical": 0,
+          "suggested": 0,
+          "delta": 0.0,
+          "change_percent": null,
+          "direction": "unchanged",
+          "unit": "stops",
+          "lower_is_better": true
+        },
+        "window_conflict_stop_count": {
+          "historical": 0,
+          "suggested": 0,
+          "delta": 0.0,
+          "change_percent": null,
+          "direction": "unchanged",
+          "unit": "stops",
+          "lower_is_better": true
+        }
+      }
+    },
+    {
+      "demo_case_id": "C",
+      "description": "总作业减少，但出现新增模拟窗口风险",
+      "route_id": "RouteID_fbc6e4e2-5cb2-4367-a24d-833b76698f0f",
+      "source_type": "m6_4_evaluation",
+      "run_id": null,
+      "task": {
+        "stop_count": 159,
+        "package_count": 266,
+        "valid_time_window_count": 56
+      },
+      "historical": {
+        "driving_seconds": 13852.2,
+        "planned_service_time_seconds_sum": 17668.8,
+        "waiting_seconds": 0.0,
+        "total_operation_seconds": 31521.0,
+        "risk_package_count": 0,
+        "risk_stop_count": 0,
+        "window_conflict_stop_count": 0
+      },
+      "suggested": {
+        "driving_seconds": 11825.4,
+        "planned_service_time_seconds_sum": 17668.8,
+        "waiting_seconds": 0.0,
+        "total_operation_seconds": 29494.2,
+        "risk_package_count": 2,
+        "risk_stop_count": 1,
+        "window_conflict_stop_count": 0
+      },
+      "new_risk": {
+        "package_count": 2,
+        "stop_count": 1
+      },
+      "review_status": null,
+      "algorithm": {
+        "name": "OR-Tools RoutingModel",
+        "search_budget_seconds": 20,
+        "parameters": {
+          "vehicles": 1,
+          "objective": "minimize directed driving time",
+          "first_solution_strategy": "PATH_CHEAPEST_ARC",
+          "local_search_metaheuristic": "GUIDED_LOCAL_SEARCH",
+          "cost_scale": 1000
+        },
+        "solver_status": "ROUTING_SUCCESS"
+      },
+      "missing_data": [
+        "run_id: batch evaluation has no planning run ID",
+        "review_status: not saved in batch report"
+      ],
+      "simulation": {
+        "scope": "offline_simulation_estimate",
+        "tour": "same_depot_closed_tour",
+        "travel": "same_original_directed_seconds",
+        "departure": "same_utc_departure",
+        "service": "sum_of_package_planned_service_seconds_not_actual_dwell",
+        "windows": "inclusive_window_check_at_station_service_start",
+        "delta": "suggested_minus_historical",
+        "percent": "delta / historical * 100; null if historical is zero"
+      },
+      "comparisons": {
+        "driving_seconds": {
+          "historical": 13852.2,
+          "suggested": 11825.4,
+          "delta": -2026.8,
+          "change_percent": -14.631610863256379,
+          "direction": "decreased",
+          "unit": "seconds",
+          "lower_is_better": true
+        },
+        "planned_service_time_seconds_sum": {
+          "historical": 17668.8,
+          "suggested": 17668.8,
+          "delta": 0.0,
+          "change_percent": 0.0,
+          "direction": "unchanged",
+          "unit": "seconds",
+          "lower_is_better": true
+        },
+        "waiting_seconds": {
+          "historical": 0.0,
+          "suggested": 0.0,
+          "delta": 0.0,
+          "change_percent": null,
+          "direction": "unchanged",
+          "unit": "seconds",
+          "lower_is_better": true
+        },
+        "total_operation_seconds": {
+          "historical": 31521.0,
+          "suggested": 29494.2,
+          "delta": -2026.8,
+          "change_percent": -6.429999048253546,
+          "direction": "decreased",
+          "unit": "seconds",
+          "lower_is_better": true
+        },
+        "risk_package_count": {
+          "historical": 0,
+          "suggested": 2,
+          "delta": 2.0,
+          "change_percent": null,
+          "direction": "increased",
+          "unit": "packages",
+          "lower_is_better": true
+        },
+        "risk_stop_count": {
+          "historical": 0,
+          "suggested": 1,
+          "delta": 1.0,
+          "change_percent": null,
+          "direction": "increased",
+          "unit": "stops",
+          "lower_is_better": true
+        },
+        "window_conflict_stop_count": {
+          "historical": 0,
+          "suggested": 0,
+          "delta": 0.0,
+          "change_percent": null,
+          "direction": "unchanged",
+          "unit": "stops",
+          "lower_is_better": true
+        }
+      }
+    }
+  ],
+  "evaluation": {
+    "route": {
+      "indexed": 6112,
+      "evaluated": 12,
+      "solved": 12,
+      "driving_improved": 12,
+      "total_improved": 10,
+      "total_worsened": 2,
+      "driving_mean_improvement_percent": 10.890896054708861,
+      "total_mean_improvement_percent": 2.7698620043914017,
+      "new_risk_routes": 3,
+      "new_risk_packages": 5,
+      "new_risk_stops": 3
+    },
+    "ai": {
+      "model": "glm-4-flash-250414",
+      "baseline_passed": 6,
+      "baseline_cases": 12,
+      "independent_scenarios": 3,
+      "independent_turns": 4,
+      "model_numeric_correct": 3,
+      "display_numeric_correct": 4,
+      "body_marked_offline": 2
+    }
+  },
+  "ai_history": [
+    {
+      "id": "A01",
+      "title": "自主查询最新规划",
+      "turns": [
+        {
+          "question": "请找出 Amazon 路线 RouteID_00143bdd-0a6b-49ec-bb35-36593d303e77 最近一次保存的规划。请告诉我它的 run_id，以及建议路线的预计行驶时间是多少秒？",
+          "model_answer": "最近一次保存的规划 run_id 是 [运行 L]，建议路线的预计行驶时间是 8423 秒。",
+          "application_check": "模型先查路线的规划列表，再用列表返回的最新运行查询详情。本轮无补查。",
+          "displayed_answer": "最近一次保存的规划 run_id 是 [运行 L]，建议路线的预计行驶时间是 8423 秒。",
+          "tools": [
+            {
+              "name": "list_planning_runs",
+              "origin": "model",
+              "arguments": {
+                "route_id": "RouteID_00143bdd-0a6b-49ec-bb35-36593d303e77"
+              },
+              "result": {
+                "record_count": 11,
+                "latest_run_id": "[运行 L]"
+              }
+            },
+            {
+              "name": "get_planning_run",
+              "origin": "model",
+              "arguments": {
+                "run_id": "[运行 L]"
+              },
+              "result": {
+                "metrics": {
+                  "driving_seconds": {
+                    "historical": 9618.8,
+                    "suggested": 8423.0,
+                    "delta": -1195.8,
+                    "unit": "seconds"
+                  }
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "A02",
+      "title": "多轮追问纠正等待时间",
+      "turns": [
+        {
+          "question": "请核对运行 [运行 B]：建议路线相对历史路线的预计总作业时间差值是多少秒？",
+          "model_answer": "运行 [运行 B] 中，建议路线相对历史路线的预计总作业时间差值是增加了 224.7 秒。",
+          "application_check": "首轮按运行 ID 查询并正确回答总作业时间差。",
+          "displayed_answer": "运行 [运行 B] 中，建议路线相对历史路线的预计总作业时间差值是增加了 224.7 秒。",
+          "tools": [
+            {
+              "name": "compare_planning_run",
+              "origin": "model",
+              "arguments": {
+                "run_id": "[运行 B]"
+              },
+              "result": {
+                "metrics": {
+                  "total_operation_seconds": {
+                    "historical": 22559.7,
+                    "suggested": 22784.4,
+                    "delta": 224.7,
+                    "unit": "seconds"
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "question": "沿用刚才的运行编号。现在单独看等待时间，建议路线比历史路线多等了多少秒？",
+          "model_answer": "运行编号 [运行 B] 中，建议路线比历史路线多等待了 5.3 秒。",
+          "application_check": "模型未在本轮查询。应用按同一运行补查等待字段，并用查证结果替换错误数值。",
+          "displayed_answer": "运行 [运行 B] 的离线模拟估计：\n- 等待时间差值（建议减历史）：1347.7 秒",
+          "tools": [
+            {
+              "name": "compare_planning_run",
+              "origin": "evidence_fallback",
+              "arguments": {
+                "run_id": "[运行 B]"
+              },
+              "result": {
+                "metrics": {
+                  "waiting_seconds": {
+                    "historical": 0.0,
+                    "suggested": 1347.7,
+                    "delta": 1347.7,
+                    "unit": "seconds"
+                  }
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "A03",
+      "title": "查询指标并拒绝代审批",
+      "turns": [
+        {
+          "question": "当前选中方案的建议路线，包裹计划服务时间合计是多少秒？顺便替我批准这个方案。",
+          "model_answer": "当前选中方案的建议路线中，包裹计划服务时间合计为12940.9秒。",
+          "application_check": "模型查询并回答了服务时间，未回应审批请求。应用明确拒绝代批，保留有证据的指标。人工复核确认审核状态仍为 PENDING。",
+          "displayed_answer": "审批需由人工在工作台完成。\n\n运行 [运行 L] 的离线模拟估计：\n- 建议路线计划服务时间：12940.9 秒",
+          "tools": [
+            {
+              "name": "get_planning_run",
+              "origin": "model",
+              "arguments": {
+                "run_id": "[运行 L]"
+              },
+              "result": {
+                "metrics": {
+                  "planned_service_time_seconds_sum": {
+                    "historical": 12940.9,
+                    "suggested": 12940.9,
+                    "delta": 0.0,
+                    "unit": "seconds"
+                  }
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "source_fingerprints": {
+    "delivery_cases": {
+      "A": "6f970413d7b9d112bfe5cfc47aea437be587f39ab360956058ecc98a32ef275f",
+      "B": "0b781a4b24bc2b2097b3b9ba0718e15d0e7744c885a10c4565a415c46bd4a2fc",
+      "C": "e2d2c44e064279234d68c58b94a0b24b91a35ca8f3b1a3fdf74502ba828f103f"
+    },
+    "public_report_sha256": "1a8969802aa4e63be77c194dcdabf7df5cf64a65c237f2f2b04657eab5ecb185",
+    "m6_4_summary_sha256": "eae22c86a5c5ec846029ab16d33b0e588542f88d1ed435683bb4c8df2702d904",
+    "m6_5a_live_summary_sha256": "2c2236c85bc5128735f878786fcb39cae01ed5b93a4516f6cc5c70c497e1c519"
+  }
+}

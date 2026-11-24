@@ -1,5 +1,18 @@
 # 末端配送工作台演示
 
+## 在线作品集
+
+打开[在线演示](https://ai-last-mile-assistant.streamlit.app)，或按 [README 快速启动](../README.md#快速启动只读演示)在本机打开。下面是 D4 本地隔离演示的真实浏览器截图。
+
+- [项目总览](screenshots/portfolio-overview.jpg)展示索引和固定样本评估的口径，以及完整系统架构。
+- [配送方案分析](screenshots/portfolio-analysis.jpg)以 B 案例说明行驶节省如何被等待增加抵消。
+- [AI运营助手](screenshots/portfolio-ai.jpg)展示应用如何复核并纠正多轮等待时间回答。
+- [项目评估](screenshots/portfolio-evaluation.jpg)区分路线模拟、AI 基线和独立验收。
+
+AI 页面的问题、模型原答和最终文本选自 M6-5A 已保存的真实验收报告。运行 ID 用一致代号替换，工具返回只摘录相关字段。人工审核状态依据验收复核，摘录可对照[公开评估报告](../evals/results.md)与[公开证据快照](../evals/portfolio_evidence.json)。M6-3B 基线保留在评估页，M6-5A 摘录只对应独立验收。证据快照记录原始报告指纹，完整私有轨迹由维护者留存。
+
+## 本地完整系统
+
 在本机按 [README](../README.md) 准备数据并启动 Streamlit。演示目标是解释一条路线为什么值得提交人工复核，以及为什么行驶时间下降仍可能不宜采用。工作台使用公开历史记录做离线模拟。
 
 1. **加载真实任务。** 在「当前规划」保留默认 Amazon Route ID，点击「加载配送任务」。核对配送站、配送日期、119 个站点及 276 条包裹记录。

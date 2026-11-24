@@ -67,7 +67,7 @@ def _show_header() -> None:
         </style>
         <header class="lm-hero">
             <div class="lm-kicker">物流运营 / 单车配送 <span class="lm-badge">离线模拟</span></div>
-            <h1>末端配送工作台</h1>
+            <h1>AI末端配送规划与运营决策助手</h1>
             <p>比较作业时程与时间窗口风险。页面指标均为离线模拟估计。</p>
         </header>
     """)
@@ -565,10 +565,10 @@ def _show_ai_assistant(selected_run_id: str | None) -> None:
 
 def main() -> None:
     st.set_page_config(page_title=TITLE, page_icon="🚚", layout="wide")
-    _show_header()
     if not demo_dashboard.has_local_data(DATA_DIR, DATA_FILES):
         demo_dashboard.show_demo()
         return
+    _show_header()
     st.caption("本地完整模式")
     workbench, history, assistant = st.tabs(["当前规划", "历史规划记录", "AI运营助手"])
     with workbench:

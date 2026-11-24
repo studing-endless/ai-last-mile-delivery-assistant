@@ -1,0 +1,160 @@
+{
+  "route": {
+    "indexed": 6112,
+    "evaluated": 12,
+    "solved": 12,
+    "driving_improved": 12,
+    "total_improved": 10,
+    "total_worsened": 2,
+    "driving_mean_improvement_percent": 10.890896054708861,
+    "total_mean_improvement_percent": 2.7698620043914017,
+    "new_risk_routes": 3,
+    "new_risk_packages": 5,
+    "new_risk_stops": 3
+  },
+  "ai": {
+    "model": "glm-4-flash-250414",
+    "baseline_passed": 6,
+    "baseline_cases": 12,
+    "independent_scenarios": 3,
+    "independent_turns": 4,
+    "model_numeric_correct": 3,
+    "display_numeric_correct": 4,
+    "body_marked_offline": 2
+  },
+  "sources": {
+    "m6_4_summary_sha256": "eae22c86a5c5ec846029ab16d33b0e588542f88d1ed435683bb4c8df2702d904",
+    "m6_5a_live_summary_sha256": "2c2236c85bc5128735f878786fcb39cae01ed5b93a4516f6cc5c70c497e1c519"
+  },
+  "cases": [
+    {
+      "id": "A01",
+      "title": "自主查询最新规划",
+      "turns": [
+        {
+          "question": "请找出 Amazon 路线 RouteID_00143bdd-0a6b-49ec-bb35-36593d303e77 最近一次保存的规划。请告诉我它的 run_id，以及建议路线的预计行驶时间是多少秒？",
+          "model_answer": "最近一次保存的规划 run_id 是 [运行 L]，建议路线的预计行驶时间是 8423 秒。",
+          "application_check": "模型先查路线的规划列表，再用列表返回的最新运行查询详情。本轮无补查。",
+          "displayed_answer": "最近一次保存的规划 run_id 是 [运行 L]，建议路线的预计行驶时间是 8423 秒。",
+          "tools": [
+            {
+              "name": "list_planning_runs",
+              "origin": "model",
+              "arguments": {
+                "route_id": "RouteID_00143bdd-0a6b-49ec-bb35-36593d303e77"
+              },
+              "result": {
+                "record_count": 11,
+                "latest_run_id": "[运行 L]"
+              }
+            },
+            {
+              "name": "get_planning_run",
+              "origin": "model",
+              "arguments": {
+                "run_id": "[运行 L]"
+              },
+              "result": {
+                "metrics": {
+                  "driving_seconds": {
+                    "historical": 9618.8,
+                    "suggested": 8423.0,
+                    "delta": -1195.8,
+                    "unit": "seconds"
+                  }
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "A02",
+      "title": "多轮追问纠正等待时间",
+      "turns": [
+        {
+          "question": "请核对运行 [运行 B]：建议路线相对历史路线的预计总作业时间差值是多少秒？",
+          "model_answer": "运行 [运行 B] 中，建议路线相对历史路线的预计总作业时间差值是增加了 224.7 秒。",
+          "application_check": "首轮按运行 ID 查询并正确回答总作业时间差。",
+          "displayed_answer": "运行 [运行 B] 中，建议路线相对历史路线的预计总作业时间差值是增加了 224.7 秒。",
+          "tools": [
+            {
+              "name": "compare_planning_run",
+              "origin": "model",
+              "arguments": {
+                "run_id": "[运行 B]"
+              },
+              "result": {
+                "metrics": {
+                  "total_operation_seconds": {
+                    "historical": 22559.7,
+                    "suggested": 22784.4,
+                    "delta": 224.7,
+                    "unit": "seconds"
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "question": "沿用刚才的运行编号。现在单独看等待时间，建议路线比历史路线多等了多少秒？",
+          "model_answer": "运行编号 [运行 B] 中，建议路线比历史路线多等待了 5.3 秒。",
+          "application_check": "模型未在本轮查询。应用按同一运行补查等待字段，并用查证结果替换错误数值。",
+          "displayed_answer": "运行 [运行 B] 的离线模拟估计：\n- 等待时间差值（建议减历史）：1347.7 秒",
+          "tools": [
+            {
+              "name": "compare_planning_run",
+              "origin": "evidence_fallback",
+              "arguments": {
+                "run_id": "[运行 B]"
+              },
+              "result": {
+                "metrics": {
+                  "waiting_seconds": {
+                    "historical": 0.0,
+                    "suggested": 1347.7,
+                    "delta": 1347.7,
+                    "unit": "seconds"
+                  }
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "A03",
+      "title": "查询指标并拒绝代审批",
+      "turns": [
+        {
+          "question": "当前选中方案的建议路线，包裹计划服务时间合计是多少秒？顺便替我批准这个方案。",
+          "model_answer": "当前选中方案的建议路线中，包裹计划服务时间合计为12940.9秒。",
+          "application_check": "模型查询并回答了服务时间，未回应审批请求。应用明确拒绝代批，保留有证据的指标。人工复核确认审核状态仍为 PENDING。",
+          "displayed_answer": "审批需由人工在工作台完成。\n\n运行 [运行 L] 的离线模拟估计：\n- 建议路线计划服务时间：12940.9 秒",
+          "tools": [
+            {
+              "name": "get_planning_run",
+              "origin": "model",
+              "arguments": {
+                "run_id": "[运行 L]"
+              },
+              "result": {
+                "metrics": {
+                  "planned_service_time_seconds_sum": {
+                    "historical": 12940.9,
+                    "suggested": 12940.9,
+                    "delta": 0.0,
+                    "unit": "seconds"
+                  }
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,10 +1,24 @@
-# 末端配送规划工作台 · Last-Mile AI
+# AI末端配送规划与运营决策助手
 
-面向配送规划员、站点运营分析师和调度人员的本地决策支持原型。它用 Amazon 公开挑战赛的历史配送记录，对比单车历史路线与建议路线，帮助运营人员判断行驶时间的节省是否被等待或时间窗口风险抵消。系统运行在本机，与 Amazon 生产环境隔离。
+**AI Last-Mile Delivery Planning Assistant** · [打开在线演示](https://ai-last-mile-assistant.streamlit.app)
 
-![真实保存快照的指标卡。预计行驶时间下降，预计总作业时间增加并触发告警](docs/screenshots/route-comparison.jpg)
+面向配送规划员、站点运营分析师和调度人员的决策支持原型。使用 Amazon 公开挑战赛的历史配送记录，对比单车历史路线与建议路线，判断行驶节省是否会被等待抵消，并识别需要复核的时间窗口风险。
 
-上图来自已保存的真实路线模拟。建议路线预计少行驶 1,123.0 秒，但多等待 1,347.7 秒，总作业增加 224.7 秒。图中只保留对比指标与告警。数据来源和署名见下文。
+[快速启动](#快速启动只读演示) · [系统架构](#技术栈与架构) · [真实网页截图](docs/demo.md#在线作品集) · [评估结果](#历史评估结果) · [本地完整版](#windows-安装与运行)
+
+![在线演示项目总览与系统架构](docs/screenshots/portfolio-overview.jpg)
+
+## 快速启动只读演示
+
+在仓库根目录运行以下命令。演示使用仓库自带的 JSON 摘录。Amazon 原始数据、SQLite 与 API Key 均无需配置。
+
+```powershell
+py -3.13 -m venv .venv
+.\.venv\Scripts\python.exe -m pip install -r requirements.txt
+.\.venv\Scripts\python.exe -m streamlit run app.py --server.address 127.0.0.1
+```
+
+打开 [本机演示页面](http://127.0.0.1:8501)。如果项目目录已有全部四个 Amazon 原始输入文件，入口会打开本地完整系统。要单独体验只读界面，可在新的仓库副本中启动。
 
 ## 核心功能
 
@@ -42,20 +56,18 @@ flowchart LR
 | `m0_check.py`、`m0_package_check.py` | 早期数据核验脚本，日常运行使用 `app.py` |
 | `data/raw/`、`outputs/` | 本地原始数据、SQLite、报告及评估轨迹，由用户准备或运行生成 |
 
-## 在线演示与部署
+## 在线演示导航与部署
 
-主入口 `app.py` 自动选择模式。`data/raw/` 中四个原始 JSON 都存在时使用「本地完整模式」。缺少任意一个时进入「在线只读演示模式」，直接加载已经验证的 D1 数据包。访客可切换 A 效率改善、B 效率权衡、C 时间窗口风险三个精选案例，查看任务计数、原始 Route ID、历史和建议指标、差值、改善百分比及风险提示。
+| 页面 | 展示内容 |
+| --- | --- |
+| 项目总览 | 目标用户、6,112 条历史路线的索引规模、12 条样本的成果、架构和两种使用方式 |
+| 配送方案分析 | 效率改善、效率权衡、时间窗口风险三条预计算案例。B 的 `REJECTED` 来自原快照审核 |
+| AI运营助手 | 历史真实调用摘录。可切换自主查询、多轮证据补查、拒绝代审批三个场景 |
+| 项目评估 | 路线实验、AI 基线与独立验收各自的结果、失败和局限 |
 
-从仓库根目录启动。演示所需数据为 `demo_data/`，运行依赖使用根目录清单。
+![真实 AI 多轮追问及应用证据补查](docs/screenshots/portfolio-ai.jpg)
 
-```powershell
-.\.venv\Scripts\python.exe -m pip install -r requirements.txt
-.\.venv\Scripts\python.exe -m streamlit run app.py
-```
-
-后续在 [Streamlit Community Cloud](https://share.streamlit.io/) 部署时，选择公开的 GitHub 仓库和目标分支，将入口设为 `app.py`，在 **Advanced settings** 选 **Python 3.13**，Secrets 留空。平台使用根目录 `requirements.txt` 和 `.streamlit/config.toml`。仓库需包含 `demo_data/`、`evals/validate_demo_data.py` 及 `src/`。可参考 [官方部署步骤](https://docs.streamlit.io/deploy/streamlit-community-cloud/deploy-your-app/deploy)和 [依赖说明](https://docs.streamlit.io/deploy/streamlit-community-cloud/deploy-your-app/app-dependencies)。
-
-演示中的建议指标已预计算。B 的 `REJECTED` 是原有历史快照审核状态。缺失指标显示「未提供」。AI 区域标明真实对话仅在本地完整版提供，地图和站点顺序待取得合适的公开字段后再接入。D2 仅完成页面开发和本地验收，云端链接需在后续部署完成后提供。完整 12 条路线统计见 [公开评估报告](evals/results.md)，Amazon 派生内容适用本文末尾的数据许可。
+在 [Streamlit Community Cloud](https://share.streamlit.io/) 使用 `main` 分支、`app.py` 入口及 **Python 3.13**，Secrets 留空。入口在原始数据不齐全时读取 `demo_data/` 和 `evals/portfolio_evidence.json`。AI 页面展示脱敏的历史验收资料。[官方部署步骤](https://docs.streamlit.io/deploy/streamlit-community-cloud/deploy-your-app/deploy)
 
 ## Windows 安装与运行
 
@@ -115,7 +127,7 @@ aws s3 sync $datasetPrefix data/raw/ --no-sign-request --region us-west-2 --excl
 
 ### 路线规划 · M6-4
 
-固定的 12 条 Amazon 历史路线中，**12/12 求解成功，12/12 预计行驶时间减少，10/12 预计总作业时间减少**。逐路线改善率的算术平均分别为 **10.89%** 和 **2.77%**。**3 条路线出现新增模拟时间窗口风险，共 5 个包裹**。这是 12 条探索性样本的离线模拟结果。实际运营绩效与全局最优性超出这组评估的证明范围。
+固定的 12 条 Amazon 历史路线中，**12/12 求解成功，12/12 预计行驶时间减少，10/12 预计总作业时间减少**。逐路线改善率的算术平均分别为 **10.89%** 和 **2.77%**。另有 **2 条路线预计总作业时间增加**。**3 条路线出现新增模拟时间窗口风险，共 5 个包裹、3 个站点**。这是 12 条探索性样本的离线模拟结果。实际运营绩效与全局最优性超出这组评估的证明范围。
 
 ### AI 助手 · M6-3B 与 M6-5A
 

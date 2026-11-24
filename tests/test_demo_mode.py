@@ -14,7 +14,7 @@ from streamlit.testing.v1 import AppTest
 
 import app
 from evals.validate_demo_data import load_package
-from src import demo_dashboard
+from src import demo_dashboard, demo_portfolio
 
 
 class DemoModeTests(unittest.TestCase):
@@ -33,18 +33,24 @@ class DemoModeTests(unittest.TestCase):
         self.assertFalse(page.exception)
         return page
 
+    @staticmethod
+    def navigate(page, section):
+        return page.radio(key="portfolio_nav").set_value(section).run()
+
     def test_partial_or_missing_data_uses_demo_and_all_cases_match_d1(self):
         app.DATA_DIR.mkdir()
         for filename in app.DATA_FILES[:-1]:
             (app.DATA_DIR / filename).touch()
         page = self.start()
-        self.assertTrue(any(item.value == "在线只读演示模式" for item in page.caption))
+        self.assertTrue(any("在线只读演示模式" in item.value for item in page.get("html")))
+        self.assertEqual(tuple(page.radio[0].options), demo_portfolio.PAGES)
+        self.navigate(page, "配送方案分析")
         for case in self.package:
-            page.radio[0].set_value(case["demo_case_id"]).run()
+            page.radio[1].set_value(case["demo_case_id"]).run()
             self.assertFalse(page.exception)
             metrics = {metric.label: metric for metric in page.metric}
-            self.assertEqual(metrics["站点数（含配送站）"].value, str(case["task"]["stop_count"]))
-            self.assertEqual(metrics["包裹记录数"].value, str(case["task"]["package_count"]))
+            self.assertTrue(any(f"{case['task']['stop_count']} 个站点" in item.value
+                                and f"{case['task']['package_count']} 条包裹记录" in item.value for item in page.caption))
             total = case["suggested"]["total_operation_seconds"]
             self.assertEqual(metrics["预计总作业时间（秒）"].value, f"{total:,.1f}")
             delta = case["comparisons"]["total_operation_seconds"]["delta"]
@@ -60,6 +66,39 @@ class DemoModeTests(unittest.TestCase):
             self.assertFalse(page.button)
             self.assertFalse(page.get("pydeck_chart"))
         self.assertFalse(app.DB_PATH.exists())
+        for blocked in self.blocked:
+            blocked.assert_not_called()
+
+    def test_portfolio_overview_and_evaluation_use_published_metrics(self):
+        page = self.start()
+        self.assertEqual([metric.value for metric in page.metric], ["6,112 条", "12/12", "10.89%", "2.77%"])
+        self.navigate(page, "项目评估")
+        self.assertFalse(page.exception)
+        self.assertEqual([metric.value for metric in page.metric], ["12/12", "12/12", "10/12", "10.89%", "2.77%", "6/12"])
+        self.assertIn("5 个包裹、3 个站点", page.warning[0].value)
+        scores = "\n".join(item.value for item in page.markdown)
+        for score in ("3/4", "4/4", "2/4"):
+            self.assertIn(score, scores)
+
+    def test_ai_examples_distinguish_model_calls_from_application_checks(self):
+        page = self.navigate(self.start(), "AI运营助手")
+        self.assertIn("非实时AI对话", page.info[0].value)
+        self.assertIn("8423 秒", page.success[0].value)
+        self.assertEqual(len(page.json), 2)
+
+        page.radio(key="ai_case").set_value("A02").run()
+        self.assertFalse(page.exception)
+        self.assertIn("5.3 秒", page.text[1].value)
+        self.assertTrue(any("模型本轮未调用工具" in item.value for item in page.caption))
+        self.assertTrue(any("应用补查" in item.value for item in page.markdown))
+        self.assertIn("1347.7 秒", page.success[1].value)
+
+        page.radio(key="ai_case").set_value("A03").run()
+        self.assertFalse(page.exception)
+        self.assertIn("审批需由人工", page.success[0].value)
+        self.assertIn("12940.9 秒", page.success[0].value)
+        self.assertFalse(page.chat_input)
+        self.assertFalse(page.button)
         for blocked in self.blocked:
             blocked.assert_not_called()
 
@@ -85,7 +124,7 @@ class DemoModeTests(unittest.TestCase):
         case["suggested"]["risk_package_count"] = None
         case["comparisons"]["risk_package_count"].update(suggested=None, delta=None, change_percent=None)
         with patch.object(demo_dashboard, "load_package", return_value=[case]):
-            page = self.start()
+            page = self.navigate(self.start(), "配送方案分析")
         metrics = {metric.label: metric for metric in page.metric}
         self.assertEqual(metrics["模拟窗口风险包裹数（个）"].value, "未提供")
         self.assertFalse(page.get("vega_lite_chart"))
@@ -93,9 +132,9 @@ class DemoModeTests(unittest.TestCase):
 
     def test_invalid_package_shows_friendly_error(self):
         with patch.object(demo_dashboard, "load_package", side_effect=ValueError("fixture mismatch")):
-            page = self.start()
+            page = self.navigate(self.start(), "配送方案分析")
         self.assertTrue(any("校验失败" in item.value for item in page.error))
-        self.assertFalse(page.radio)
+        self.assertEqual(len(page.radio), 1)
 
     def test_clean_copy_runs_without_raw_data_database_or_credentials(self):
         root = Path(app.__file__).resolve().parent
@@ -106,6 +145,7 @@ class DemoModeTests(unittest.TestCase):
         shutil.copytree(root / "demo_data", target / "demo_data")
         (target / "evals").mkdir()
         shutil.copyfile(root / "evals/validate_demo_data.py", target / "evals/validate_demo_data.py")
+        shutil.copyfile(root / "evals/portfolio_evidence.json", target / "evals/portfolio_evidence.json")
         environment = {name: value for name, value in os.environ.items()
                        if not name.startswith(("ZHIPU_", "OPENAI_")) and name != "PYTHONPATH"}
         script = """
@@ -118,8 +158,11 @@ before = {str(p): sha256(p.read_bytes()).hexdigest() for p in Path('demo_data').
 with patch('sqlite3.connect', side_effect=AssertionError('SQLite forbidden')), patch('openai.OpenAI', side_effect=AssertionError('API forbidden')):
     page = AppTest.from_string('import app\\napp.main()', default_timeout=10).run()
     assert not page.exception, page.exception
+    for section in ('AI运营助手', '项目评估', '配送方案分析'):
+        page.radio(key='portfolio_nav').set_value(section).run()
+        assert not page.exception, page.exception
     for selected in ('A', 'B', 'C'):
-        page.radio[0].set_value(selected).run()
+        page.radio[1].set_value(selected).run()
         assert not page.exception, page.exception
     assert not page.chat_input and not page.button
 assert not Path('outputs').exists() and not Path('data').exists() and not Path('.env').exists()

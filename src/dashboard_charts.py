@@ -14,19 +14,20 @@ TIME_COMPONENTS = (
 )
 
 
-def show_time_breakdown(historical: dict, suggested: dict) -> None:
+def show_time_breakdown(historical: dict, suggested: dict, *, show_totals: bool = True) -> None:
     with st.container(border=True):
         st.markdown("**作业时长构成**")
-        baseline = historical.get("total_operation_seconds")
-        planned = suggested.get("total_operation_seconds")
-        delta = planned - baseline if baseline is not None and planned is not None else None
-        totals = (
-            ("历史预计总作业", baseline, ",.2f"),
-            ("建议预计总作业", planned, ",.2f"),
-            ("总作业差值（建议 − 历史）", delta, "+,.2f" if delta else ",.2f"),
-        )
-        for column, (label, seconds, spec) in zip(st.columns(3), totals, strict=True):
-            column.metric(f"{label}（分钟）", format(seconds / 60, spec) if seconds is not None else "—")
+        if show_totals:
+            baseline = historical.get("total_operation_seconds")
+            planned = suggested.get("total_operation_seconds")
+            delta = planned - baseline if baseline is not None and planned is not None else None
+            totals = (
+                ("历史预计总作业", baseline, ",.2f"),
+                ("建议预计总作业", planned, ",.2f"),
+                ("总作业差值（建议 − 历史）", delta, "+,.2f" if delta else ",.2f"),
+            )
+            for column, (label, seconds, spec) in zip(st.columns(3), totals, strict=True):
+                column.metric(f"{label}（分钟）", format(seconds / 60, spec) if seconds is not None else "—")
 
         routes = ((HISTORICAL, historical), (SUGGESTED, suggested))
         if any(metrics.get(field) is None for _, metrics in routes for _, field in TIME_COMPONENTS):

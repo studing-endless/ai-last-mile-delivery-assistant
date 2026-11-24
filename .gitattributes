@@ -1,2 +1,4 @@
 # Preserve the exact case bytes checked against demo_data/manifest.json.
 demo_data/cases/*.json text eol=lf
+# The static portfolio export is checked byte for byte across platforms.
+docs/assets/data/portfolio.json text eol=lf
