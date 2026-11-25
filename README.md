@@ -8,9 +8,9 @@
 
 面向配送规划员、站点运营分析师和调度人员的决策支持原型。使用 Amazon 公开挑战赛的历史配送记录，对比单车历史路线与建议路线，判断行驶节省是否会被等待抵消，并识别需要复核的时间窗口风险。
 
-[快速启动](#快速启动只读演示) · [系统架构](#技术栈与架构) · [Streamlit 工作台截图](docs/demo.md#在线作品集) · [评估结果](#历史评估结果)
+[快速启动](#快速启动只读演示) · [系统架构](#技术栈与架构) · [产品官网截图](docs/demo.md#在线作品集) · [评估结果](#历史评估结果)
 
-![Streamlit 在线只读工作台的项目总览与系统架构](docs/screenshots/portfolio-overview.jpg)
+[![V3 产品官网首页，展示配送决策实验室品牌、配送网络示意和路线评估成果](docs/screenshots/portfolio-overview.jpg)](https://studing-endless.github.io/ai-last-mile-delivery-assistant/)
 
 ## 快速启动只读演示
 
@@ -51,16 +51,16 @@ Python 3.13、ijson、OR-Tools、SQLite、Streamlit、Altair，以及通过 Open
 
 ## Streamlit 工作台导航与部署
 
-在线只读模式加载与产品官网相同的 V3 HTML、CSS、JavaScript 和公开 JSON。Streamlit 通过组件嵌入本地文件，页面可独立于 GitHub Pages 加载。服务端读取或校验公开素材失败时，工作台使用下表所示的 D4 界面。
+在线只读模式加载与产品官网相同的 V3 HTML、CSS、JavaScript 和公开 JSON。Streamlit 通过组件嵌入本地文件，页面可独立于 GitHub Pages 加载。服务端读取或校验公开素材失败时，工作台回退到 D4 界面。
 
-| 页面 | 展示内容 |
+| V3 区域 | 展示内容 |
 | --- | --- |
-| 项目总览 | 目标用户、6,112 条历史路线的索引规模、12 条样本的成果、架构和两种使用方式 |
+| 首页 | 目标用户、配送网络示意、6,112 条历史路线的索引规模及 12 条样本的成果 |
 | 配送方案分析 | 效率改善、效率权衡、时间窗口风险三条预计算案例。B 的 `REJECTED` 来自原快照审核 |
-| AI运营助手 | 历史真实调用摘录。可切换自主查询、多轮证据补查、拒绝代审批三个场景 |
+| AI 证据链 | 历史真实调用摘录。可切换自主查询、多轮证据补查、拒绝代审批三个场景 |
 | 项目评估 | 路线实验、AI 基线与独立验收各自的结果、失败和局限 |
 
-![真实 AI 多轮追问及应用证据补查](docs/screenshots/portfolio-ai.jpg)
+![V3 官网 AI 证据链，展开两轮历史对话及等待时间补查证据](docs/screenshots/portfolio-ai.jpg)
 
 在 [Streamlit Community Cloud](https://share.streamlit.io/) 使用 `main` 分支、`app.py` 入口及 **Python 3.13**，Secrets 留空。入口在原始数据不齐全时读取 `demo_data/` 和 `evals/portfolio_evidence.json`。AI 页面展示脱敏的历史验收资料。[官方部署步骤](https://docs.streamlit.io/deploy/streamlit-community-cloud/deploy-your-app/deploy)
 
