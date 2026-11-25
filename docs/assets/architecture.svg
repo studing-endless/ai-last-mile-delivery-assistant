@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="473" viewBox="0 0 960 473" role="img" aria-labelledby="title description">
+  <title id="title">AI 末端配送规划与运营决策助手 · 本地系统架构</title>
+  <desc id="description">Python 校验并组装 Amazon 公开历史配送数据。OR-Tools 规划建议路线。时程模拟比较历史与建议路线，在 Streamlit 工作台展示指标和窗口风险。工作台保存和读取 SQLite 规划快照。人员在工作台审核与导出，审核结果写入 SQLite。GLM 通过应用校验的白名单工具只读查询 SQLite，由应用校验证据。</desc>
+  <defs>
+    <marker id="green-arrow" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M0 0 8 4 0 8Z" fill="#17674e"/>
+    </marker>
+    <marker id="orange-arrow" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M0 0 8 4 0 8Z" fill="#a2471c"/>
+    </marker>
+  </defs>
+  <style>
+    text {font-family: "Noto Sans SC", "Microsoft YaHei", "PingFang SC", "Noto Sans CJK SC", system-ui, sans-serif}
+    .heading {font-size: 25px; font-weight: 700; fill: #192b25}
+    .label {font-size: 19px; font-weight: 700; fill: #192b25}
+    .caption {font-size: 15px; fill: #43564c}
+    .flow-label {font-size: 14px; font-weight: 600; fill: #43564c}
+    .card {fill: #fffef9; stroke: #cbd4c8}
+    .flow, .review {fill: none; stroke-width: 2; stroke-linejoin: round}
+    .flow {stroke: #17674e; marker-end: url(#green-arrow)}
+    .query {stroke-dasharray: 5 4}
+    .review {stroke: #a2471c; marker-end: url(#orange-arrow)}
+  </style>
+
+  <rect x="0.5" y="0.5" width="959" height="472" rx="18" fill="#f8f7f1" stroke="#cbd4c8"/>
+  <path d="M29 33h20" stroke="#b4592a" stroke-width="3" stroke-linecap="round"/>
+  <text class="heading" x="60" y="41">本地配送规划系统</text>
+  <path class="flow" d="M648 33h22"/>
+  <text class="flow-label" x="678" y="38">数据流</text>
+  <path class="flow query" d="M745 33h22"/>
+  <text class="flow-label" x="775" y="38">只读查询</text>
+  <path class="review" d="M840 33h22"/>
+  <text class="flow-label" x="870" y="38">人工审核写入</text>
+
+  <rect class="card" x="28" y="71" width="205" height="88" rx="10"/>
+  <rect class="card" x="261" y="71" width="205" height="88" rx="10"/>
+  <rect class="card" x="494" y="71" width="205" height="88" rx="10"/>
+  <rect class="card" x="727" y="71" width="205" height="88" rx="10"/>
+  <text class="label" x="44" y="105">Amazon 公开 JSON</text>
+  <text class="caption" x="44" y="133">历史路线、包裹、行驶时间</text>
+  <text class="label" x="277" y="105">Python 数据处理</text>
+  <text class="caption" x="277" y="133">校验输入、组装配送任务</text>
+  <text class="label" x="510" y="105">OR-Tools 路线规划</text>
+  <text class="caption" x="510" y="133">单车闭环，优化行驶时间</text>
+  <text class="label" x="743" y="105">时程与风险模拟</text>
+  <text class="caption" x="743" y="133">比较历史与建议路线</text>
+  <path class="flow" d="M234 115h24"/>
+  <path class="flow" d="M467 115h24"/>
+  <path class="flow" d="M700 115h24"/>
+  <path class="flow" d="M363 160v25h466v-23"/>
+  <text class="flow-label" text-anchor="middle" x="596" y="177">历史路线与任务数据</text>
+  <path class="flow" d="M875 160v51H480v21"/>
+  <text class="flow-label" text-anchor="middle" x="678" y="204">对比指标与窗口风险</text>
+
+  <rect x="353" y="232" width="254" height="75" rx="10" fill="#1d4838"/>
+  <text x="480" y="263" text-anchor="middle" font-size="20" font-weight="700" fill="#fffef9">Streamlit 工作台</text>
+  <text x="480" y="287" text-anchor="middle" font-size="15" fill="#e2eee3">查看对比、管理规划快照</text>
+  <path class="flow" d="M378 308v17H152v37"/>
+  <path class="flow" d="M582 308v17h226v37"/>
+  <path class="flow" d="M480 309v51" marker-start="url(#green-arrow)"/>
+  <text class="flow-label" x="491" y="342">保存 / 读取</text>
+
+  <rect x="28" y="362" width="248" height="83" rx="10" fill="#fff4e8" stroke="#e0bb9e"/>
+  <rect x="353" y="362" width="254" height="83" rx="10" fill="#edf3e9" stroke="#cbd4c8"/>
+  <rect class="card" x="684" y="362" width="248" height="83" rx="10"/>
+  <text class="label" x="44" y="392">人工审核与报告导出</text>
+  <text class="caption" x="44" y="419">批准 / 驳回 · 导出 JSON / CSV</text>
+  <text class="label" x="369" y="392">SQLite 规划快照</text>
+  <text class="caption" x="369" y="419">保存方案指标与人工审核记录</text>
+  <text class="label" x="700" y="392">GLM Tool Calling</text>
+  <text class="caption" x="700" y="419">白名单工具 · 应用证据校验</text>
+  <path class="review" d="M277 404h73"/>
+  <text x="313" y="395" text-anchor="middle" font-size="14" font-weight="600" fill="#a2471c">写入审核</text>
+  <path class="flow query" d="M683 404h-73"/>
+  <text class="flow-label" x="645" y="395" text-anchor="middle">仅查询</text>
+</svg>

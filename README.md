@@ -35,18 +35,7 @@ py -3.13 -m venv .venv
 
 Python 3.13、ijson、OR-Tools、SQLite、Streamlit、Altair，以及通过 OpenAI Python SDK 兼容接口调用的智谱 GLM。算法、时程评估和审核分层处理。
 
-```mermaid
-flowchart LR
-    A[Amazon 公开 JSON] --> B[Python 校验与数据处理]
-    B --> C[OR-Tools 单车路线规划]
-    B --> D[历史与建议路线时程及风险评估]
-    C --> D --> E[(SQLite 规划快照)]
-    E --> F[Streamlit 工作台]
-    F --> G[GLM Tool Calling]
-    G -->|白名单只读查询| E
-    F --> H[人工审核与报告导出]
-    H -->|保存人工审核结论| E
-```
+[![本地完整系统架构：Amazon 数据经 Python 校验、OR-Tools 规划和时程模拟后进入 Streamlit 工作台；SQLite 保存规划及人工审核，GLM 工具只读查询](docs/assets/architecture.svg)](docs/assets/architecture.svg)
 
 | 位置 | 内容 |
 | --- | --- |
@@ -62,7 +51,7 @@ flowchart LR
 
 ## Streamlit 工作台导航与部署
 
-在线只读模式加载与产品官网相同的 V3 HTML、CSS、JavaScript 和公开 JSON。Streamlit 通过组件嵌入本地文件，页面可独立于 GitHub Pages 加载。若公开静态文件缺失或无法解析，工作台使用下表所示的 D4 界面。
+在线只读模式加载与产品官网相同的 V3 HTML、CSS、JavaScript 和公开 JSON。Streamlit 通过组件嵌入本地文件，页面可独立于 GitHub Pages 加载。服务端读取或校验公开素材失败时，工作台使用下表所示的 D4 界面。
 
 | 页面 | 展示内容 |
 | --- | --- |
@@ -133,7 +122,19 @@ aws s3 sync $datasetPrefix data/raw/ --no-sign-request --region us-west-2 --excl
 
 ### 路线规划 · M6-4
 
-固定的 12 条 Amazon 历史路线中，**12/12 求解成功，12/12 预计行驶时间减少，10/12 预计总作业时间减少**。逐路线改善率的算术平均分别为 **10.89%** 和 **2.77%**。另有 **2 条路线预计总作业时间增加**。**3 条路线出现新增模拟时间窗口风险，共 5 个包裹、3 个站点**。这是 12 条探索性样本的离线模拟结果。实际运营绩效与全局最优性超出这组评估的证明范围。
+| 固定 12 条 Amazon 历史路线的评估指标 | 结果 |
+| --- | ---: |
+| 求解成功 | 12/12 |
+| 预计行驶时间减少 | 12/12 |
+| 预计总作业时间减少 | 10/12 |
+| 预计总作业时间增加 | 2/12 |
+| 出现新增模拟时间窗口风险 | 3/12（5 个包裹、3 个站点） |
+| 平均预计行驶时间减少 | 10.89% |
+| 平均预计总作业时间减少 | 2.77% |
+
+两项平均降幅均为全部 12 条路线的逐路线改善率的算术平均。各结果类别可能重叠，例如总作业时间减少的路线也可能出现新增窗口风险。这组探索性样本只反映离线模拟结果，实际运营收益与全局最优性超出评估范围。[路线评估口径](evals/results.md#m6-4--固定-12-条真实路线)
+
+[官网的三个典型案例](https://studing-endless.github.io/ai-last-mile-delivery-assistant/#studio)展示了三种结果。A 的行驶和总作业时间均减少，B 的等待抵消了行驶节省并增加总作业时间，C 在总作业时间减少的同时新增了模拟窗口风险。
 
 ### AI 助手 · M6-3B 与 M6-5A
 
